@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik
+  labels:
+    app: traefik
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    name: route
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+    name: dashboard
+  selector:
+    app: traefik
+  sessionAffinity: None
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: traefik
+  name: traefik
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: traefik
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: traefik
+    spec:
+      containers:
+      - image: traefik:latest
+        imagePullPolicy: Always
+        name: traefik
+        args: ["--api.insecure=true","--log.level=DEBUG","--api.debug=true", "--accesslog=true"]
+        resources: {}
