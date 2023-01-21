@@ -41,7 +41,7 @@ spec:
         app: flask
     spec:
       containers:
-      - image: sokoide/flask:latest
+      - image: sokoidecr.azurecr.io/flask-amd64:latest
         imagePullPolicy: Always
         name: flask
         resources: {}

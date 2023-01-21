@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect
 import os
 import socket
+import platform
 
 app = Flask(__name__)
 
@@ -9,11 +10,15 @@ app = Flask(__name__)
 def redirect_url():
     return redirect('/')
 
+@app.route('/hello')
+def hello():
+    return 'hello'
 
 @app.route('/')
 def home():
     ret = {
         "Hostname": socket.gethostname(),
+        "Platform": platform.platform(),
     }
     headers = []
     for h in request.headers:
