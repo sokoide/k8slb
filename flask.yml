@@ -45,3 +45,6 @@ spec:
         imagePullPolicy: Always
         name: flask
         resources: {}
+      imagePullSecrets:
+      - name: acr-secret
+

@@ -45,3 +45,42 @@ spec:
         imagePullPolicy: Always
         name: nginx
         resources: {}
+        volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+          items:
+            - key: nginx.conf
+              path: nginx.conf
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+data:
+  nginx.conf: |
+    user nginx;
+    worker_processes  1;
+    events {
+      worker_connections  10240;
+    }
+    http {
+      server {
+          listen       80;
+          server_name  localhost;
+          root /usr/share/nginx/html;
+
+          location / {
+            autoindex on;
+          }
+          location /redirect {
+            return 301 /;
+          }
+      }
+    }
+
