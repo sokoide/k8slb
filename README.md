@@ -13,7 +13,7 @@ docker push sokoidecr.azurecr.io/flask-amd64
 
 # On x64 Linux
 docker build . -t flask-amd64
-dodker tag flask-amd64 sokoidecr.azurecr.io/flask-amd64
+docker tag flask-amd64 sokoidecr.azurecr.io/flask-amd64
 az acr login --name sokoidecr
 docker push sokoidecr.azurecr.io/flask-amd64
 ```

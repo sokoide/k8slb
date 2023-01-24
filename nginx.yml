@@ -79,6 +79,7 @@ data:
             autoindex on;
           }
           location /redirect {
+            keepalive_timeout 60;
             return 301 /;
           }
       }

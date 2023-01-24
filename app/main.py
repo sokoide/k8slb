@@ -2,6 +2,7 @@ from flask import Flask, request, redirect
 import os
 import socket
 import platform
+from werkzeug.serving import WSGIRequestHandler
 
 app = Flask(__name__)
 
@@ -33,4 +34,6 @@ def home():
 
 
 if __name__ == '__main__':
+    # this is not good enough to enable keep-alive
+    WSGIRequestHandler.protocol_version = "HTTP/1.1"
     app.run(host="0.0.0.0", port=5000, debug=True)
